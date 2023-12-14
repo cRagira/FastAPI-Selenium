@@ -1,7 +1,9 @@
 from fastapi import FastAPI, BackgroundTasks, HTTPException
 from pydantic import BaseModel
-from extract import *
 import os
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 SECRET = os.getenv("SECRET")
