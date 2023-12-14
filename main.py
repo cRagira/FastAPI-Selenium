@@ -1,9 +1,7 @@
 from fastapi import FastAPI, BackgroundTasks, HTTPException
 from pydantic import BaseModel
+from extract import *
 import os
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 
 SECRET = os.getenv("SECRET")
@@ -23,20 +21,9 @@ async def root():
 
 @app.get("/homepage")
 async def demo_get():
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    
-    prefs = {"profile.managed_default_content_settings.images":2}
-    chrome_options.headless = True
-
-
-    chrome_options.add_experimental_option("prefs", prefs)
-    
-    driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-
-    homepage = driver.get("https://www.flashscore.com").page_source
+    driver=createDriver()
+    url="https://www.google.com"
+    homepage = getGoogleHomepage(driver,url)
     driver.close()
     return homepage
 

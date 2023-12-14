@@ -15,10 +15,10 @@ def createDriver() -> webdriver.Chrome:
     chrome_options.add_experimental_option("prefs", prefs)
     myDriver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
-    return myDriver 
+    return myDriver
 
-def getGoogleHomepage(driver: webdriver.Chrome) -> str:
-    driver.get("https://www.google.com")
+def getGoogleHomepage(driver: webdriver.Chrome, url) -> str:
+    driver.get(url)
     return driver.page_source
 
 def doBackgroundTask(inp):
