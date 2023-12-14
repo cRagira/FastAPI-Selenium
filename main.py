@@ -34,9 +34,9 @@ async def demo_get():
     
     driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
-    homepage = driver.get("https://www.flashscore.com")
+    homepage = driver.get("https://www.flashscore.com").page_source
     driver.close()
-    return homepage.page_source
+    return homepage
 
 @app.post("/backgroundDemo")
 async def demo_post(inp: Msg, background_tasks: BackgroundTasks):
