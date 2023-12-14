@@ -13,7 +13,7 @@ def createDriver() -> webdriver.Chrome:
 
 
     chrome_options.add_experimental_option("prefs", prefs)
-    myDriver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    myDriver = webdriver.Chrome(service=Service(ChromeDriverManager(driver_version='106').install()), options=chrome_options)
 
     return myDriver
 

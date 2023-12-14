@@ -2,7 +2,7 @@ ARG PORT=443
 
 
 
-FROM cypress/browsers:latest
+FROM cypress/browsers:node16.17.0-chrome106
 
 
 RUN apt-get install python3 -y
