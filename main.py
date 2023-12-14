@@ -34,7 +34,7 @@ async def demo_get():
     
     driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
-    homepage = driver.get("https://www.google.com")
+    homepage = driver.get("https://www.flashscore.com")
     driver.close()
     return homepage.page_source
 
