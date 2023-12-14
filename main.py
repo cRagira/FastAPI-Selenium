@@ -21,11 +21,22 @@ async def root():
 
 @app.get("/homepage")
 async def demo_get():
-    driver=createDriver()
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    
+    prefs = {"profile.managed_default_content_settings.images":2}
+    chrome_options.headless = True
 
-    homepage = getGoogleHomepage(driver)
+
+    chrome_options.add_experimental_option("prefs", prefs)
+    
+    driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+
+    homepage = driver.get("https://www.google.com")
     driver.close()
-    return homepage
+    return homepage.page_source
 
 @app.post("/backgroundDemo")
 async def demo_post(inp: Msg, background_tasks: BackgroundTasks):
