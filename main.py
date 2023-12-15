@@ -22,8 +22,8 @@ async def root():
 @app.get("/homepage")
 async def demo_get():
     driver=createDriver()
-    url="https://www.google.com"
-    homepage = getGoogleHomepage(driver,url)
+    url="https://www.flashscore.com"
+    homepage = getPage(driver,url)
     driver.close()
     return homepage
 

@@ -17,7 +17,7 @@ def createDriver() -> webdriver.Chrome:
 
     return myDriver
 
-def getGoogleHomepage(driver: webdriver.Chrome, url) -> str:
+def getPage(driver: webdriver.Chrome, url) -> str:
     driver.get(url)
     return driver.page_source
 
