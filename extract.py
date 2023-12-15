@@ -1,15 +1,13 @@
-import decimal
-import requests
+import datetime
+import json
+import time
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from bs4 import BeautifulSoup
-import time
-import datetime
-from selenium.webdriver.chrome.service import Service
-import json
-from webdriver_manager.chrome import ChromeDriverManager
 
 def createDriver() -> webdriver.Chrome:
     chrome_options = webdriver.ChromeOptions()
@@ -65,11 +63,8 @@ def getPage(driver: webdriver.Chrome, url) -> str:
     oddbtn = driver.find_element(By.XPATH,'//*[@id="live-table"]/div[1]/div[1]/div[3]')
     oddbtn.click()
     time.sleep(5)
-
     def collectdata(date):
         html = driver.page_source
-        time.sleep(5)
-
         soup = BeautifulSoup(html,'lxml')
         with open('x.html', 'w') as file:
             file.write(html)
@@ -148,13 +143,10 @@ def getPage(driver: webdriver.Chrome, url) -> str:
                     if game['home_odds'] and game['draw_odds']:
                         data.append(game)
 
+            data = (json.dumps(data))
         return data
-
-    data=collectdata(datetime.datetime.today().date())
-
-
-
-    return data
+    matches=collectdata(datetime.datetime.today().date())
+    return matches
 
 def doBackgroundTask(inp):
     print("Doing background task")
