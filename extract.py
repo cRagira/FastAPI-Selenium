@@ -1,5 +1,4 @@
 import decimal
-from django.utils import timezone
 import requests
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -10,8 +9,6 @@ import time
 import datetime
 from selenium.webdriver.chrome.service import Service
 import json
-from .models import BetTicket, Match
-from djmoney.contrib.exchange.backends import FixerBackend
 from webdriver_manager.chrome import ChromeDriverManager
 
 def createDriver() -> webdriver.Chrome:
@@ -151,36 +148,7 @@ def getPage(driver: webdriver.Chrome, url) -> str:
                     if game['home_odds'] and game['draw_odds']:
                         data.append(game)
 
-            # matches = (json.dumps(data))
-            for match in data:
-                instance = Match.objects.filter(match_id=match['match_id']).first()
-                if instance:
-                    instance.home_odds=match['home_odds']
-                    instance.draw_odds=match['draw_odds']
-                    instance.away_odds=match['away_odds']
-                    instance.home_score=match['home_score']
-                    instance.away_score=match['away_score']
-                    #update match outcome if it ia 'fin'
-                    if match['stage']=='fin' and instance.outcome == 'pend':
-                        if instance.home_score > instance.away_score:
-                            instance.outcome='home'
-                        elif instance.home_score == instance.away_score:
-                            instance.outcome='draw'
-                        elif instance.home_score < instance.away_score:
-                            instance.outcome='away'
-                        else:
-                            instance.outcome='void'
-                    instance.stage=match['stage']
-                    instance.save()
-                
-                else:
-                    print(f'creating {match["match_id"]} , {match["home"]} - {match["away"]} {match["time"]} {match["stage"]} {match["home_odds"]} {match["draw_odds"]} {match["away_odds"]} {match["home_score"]} {match["away_score"]}')        
-                    # Match.objects.create(match_id=match['match_id'],title=match['title'],home=match['home'],away=match['away'],time=match['time'],stage=match['stage'],home_odds=match['home_odds'],draw_odds=match['draw_odds'],away_odds=match['away_odds'],home_score=match['home_score'],away_score=match['away_score'])
-            # response = requests.post("http://127.0.0.1:8000/fetch/",json=data)
-
-            # print(response.text)
-            with open('x.json', 'w') as file:
-                file.write(json.dumps(data))
+        return data
 
     data=collectdata(datetime.datetime.today().date())
 
